@@ -5,9 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>Patshop</artifactId>
+    <artifactId>patshop</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>patshop-app</module>
+        <module>patshop-common</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
