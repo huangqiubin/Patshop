@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqb.patshop.mbg.dao.SmsSecTopicDao">
+    <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.SmsSecTopic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sec_topic_name" jdbcType="VARCHAR" property="secTopicName"/>
+        <result column="is_hot" jdbcType="INTEGER" property="isHot"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, sec_topic_name, is_hot
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_sec_topic
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultType="com.hqb.patshop.mbg.model.SmsSecTopic">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_sec_topic
+    </select>
+    <select id="selectPrimaryKeyBySecTopicName" resultType="java.lang.Integer">
+        select id from sms_sec_topic where sec_topic_name = #{secTopicName} limit 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sms_sec_topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.SmsSecTopic"
+            useGeneratedKeys="true">
+    insert into sms_sec_topic (sec_topic_name)
+    values (#{secTopicName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.SmsSecTopic"
+            useGeneratedKeys="true">
+        insert into sms_sec_topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="secTopicName != null">
+                sec_topic_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="secTopicName != null">
+                #{secTopicName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.SmsSecTopic">
+        update sms_sec_topic
+        <set>
+            <if test="secTopicName != null">
+                sec_topic_name = #{secTopicName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.SmsSecTopic">
+    update sms_sec_topic
+    set sec_topic_name = #{secTopicName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqb.patshop.mbg.dao.SmsTopicDao">
+    <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.SmsTopic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="topic_type" jdbcType="INTEGER" property="topicType"/>
+        <result column="topic_content" jdbcType="VARCHAR" property="topicContent"/>
+        <result column="topic_image" jdbcType="VARCHAR" property="topicImage"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="topic_category" jdbcType="VARCHAR" property="topicCategory"/>
+        <result column="topic_title" jdbcType="VARCHAR" property="topicTitle"/>
+        <result column="sec_topic_id" jdbcType="INTEGER" property="secTopicId"/>
+        <result column="hot_topic" jdbcType="INTEGER" property="hotTopic"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="topic_hot_value" jdbcType="FLOAT" property="topicHotValue"/>
+        <result column="user_avatar" jdbcType="VARCHAR" property="userAvatar"/>
+    </resultMap>
+
+    <resultMap id="BaseTopicAndSecTopic" type="com.hqb.patshop.app.home.dto.TopicAndSecTopic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="topic_type" jdbcType="INTEGER" property="topicType"/>
+        <result column="topic_content" jdbcType="VARCHAR" property="topicContent"/>
+        <result column="topic_image" jdbcType="VARCHAR" property="topicImage"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickName"/>
+        <result column="user_avatar" jdbcType="VARCHAR" property="userAvatar"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="topic_category" jdbcType="VARCHAR" property="topicCategory"/>
+        <result column="topic_title" jdbcType="VARCHAR" property="topicTitle"/>
+        <result column="hot_topic" jdbcType="INTEGER" property="hotTopic"/>
+        <result column="topic_hot_value" jdbcType="FLOAT" property="topicHotValue"/>
+        <association property="smsSecTopic" javaType="com.hqb.patshop.mbg.model.SmsSecTopic">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="sec_topic_name" jdbcType="VARCHAR" property="secTopicName"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, topic_type, topic_content, topic_image, user_id, user_nickname,create_time, topic_category,
+    topic_title, sec_topic_id, hot_topic
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_topic
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAllBySecTopicId" resultType="com.hqb.patshop.mbg.model.SmsTopic">
+        select
+        <include refid="Base_Column_List"/>
+        from sms_topic
+        where sec_topic_id = #{secTopicId,jdbcType=INTEGER}
+    </select>
+    <select id="selectAllByHotTopic" resultMap="BaseTopicAndSecTopic">
+        select t.id, t.topic_type, t.topic_content, t.topic_image, t.user_id, t.user_nickname, t.user_avatar, t.create_time, t.topic_category, t.topic_title, t.hot_topic, t.topic_hot_value, s.id, s.sec_topic_name
+        from sms_topic t left outer join sms_sec_topic s on t.sec_topic_id = s.id
+        where t.hot_topic = #{hotTopic}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sms_topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.SmsTopic"
+            useGeneratedKeys="true">
+    insert into sms_topic (topic_type, topic_content, topic_image,
+      user_id, create_time, topic_category,
+      topic_title, sec_topic_id, hot_topic)
+    values (#{topicType,jdbcType=INTEGER}, #{topicContent,jdbcType=VARCHAR}, #{topicImage,jdbcType=VARCHAR},
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{topicCategory,jdbcType=VARCHAR},
+      #{topicTitle,jdbcType=VARCHAR}, #{secTopicId,jdbcType=INTEGER}, #{hotTopic,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.SmsTopic"
+            useGeneratedKeys="true">
+        insert into sms_topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="topicType != null">
+                topic_type,
+            </if>
+            <if test="topicContent != null">
+                topic_content,
+            </if>
+            <if test="topicImage != null">
+                topic_image,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="topicCategory != null">
+                topic_category,
+            </if>
+            <if test="topicTitle != null">
+                topic_title,
+            </if>
+            <if test="secTopicId != null">
+                sec_topic_id,
+            </if>
+            <if test="hotTopic != null">
+                hot_topic,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="topicType != null">
+                #{topicType,jdbcType=INTEGER},
+            </if>
+            <if test="topicContent != null">
+                #{topicContent,jdbcType=VARCHAR},
+            </if>
+            <if test="topicImage != null">
+                #{topicImage,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="topicCategory != null">
+                #{topicCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="topicTitle != null">
+                #{topicTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="secTopicId != null">
+                #{secTopicId,jdbcType=INTEGER},
+            </if>
+            <if test="hotTopic != null">
+                #{hotTopic,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.SmsTopic">
+        update sms_topic
+        <set>
+            <if test="topicType != null">
+                topic_type = #{topicType,jdbcType=INTEGER},
+            </if>
+            <if test="topicContent != null">
+                topic_content = #{topicContent,jdbcType=VARCHAR},
+            </if>
+            <if test="topicImage != null">
+                topic_image = #{topicImage,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="topicCategory != null">
+                topic_category = #{topicCategory,jdbcType=VARCHAR},
+            </if>
+            <if test="topicTitle != null">
+                topic_title = #{topicTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="secTopicId != null">
+                sec_topic_id = #{secTopicId,jdbcType=INTEGER},
+            </if>
+            <if test="hotTopic != null">
+                hot_topic = #{secTopicId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.SmsTopic">
+    update sms_topic
+    set topic_type = #{topicType,jdbcType=INTEGER},
+      topic_content = #{topicContent,jdbcType=VARCHAR},
+      topic_image = #{topicImage,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      topic_category = #{topicCategory,jdbcType=VARCHAR},
+      topic_title = #{topicTitle,jdbcType=VARCHAR},
+      sec_topic_id = #{secTopicId,jdbcType=INTEGER}
+      hot_topic = #{hotpic,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

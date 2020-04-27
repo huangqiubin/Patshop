@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqb.patshop.mbg.dao.SmsHomeAdvertiseMapper">
+
+    <select id="selectHomeAdvertise" resultType="com.hqb.patshop.mbg.model.SmsHomeAdvertise">
+        select * from sms_home_advertise
+    </select>
+
+    <select id="selectAllProductCategory" resultType="com.hqb.patshop.mbg.model.PmsProductCategoryDao">
+        select * from pms_product_category
+    </select>
+
+    <select id="selectBidProduct" resultType="com.hqb.patshop.mbg.model.SmsHomeProductDao">
+        select * from sms_home_product where category_name = #{0}
+    </select>
+
+    <select id="selectAllHomeHot" resultType="com.hqb.patshop.mbg.model.SmsHomeHot">
+        select * from sms_home_hot
+    </select>
+
+    <select id="selectProductDetail" resultType="com.hqb.patshop.mbg.model.PmsProduct1Dao">
+        select * from pms_product1 where id = #{productId}
+    </select>
+
+</mapper>

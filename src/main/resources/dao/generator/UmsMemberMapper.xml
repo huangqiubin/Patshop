@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hqb.patshop.mbg.dao.UmsMemberMapper">
+
+    <select id="selectMember" resultType="com.hqb.patshop.mbg.model.UmsMemberDao">
+        select * from ums_member where id = #{0}
+    </select>
+    <select id="selectUserByUserName" resultType="com.hqb.patshop.mbg.model.UmsMemberDao">
+        select * from ums_member where username = #{0}
+    </select>
+</mapper>

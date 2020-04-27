@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/patshop?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+  resources:
+    static-locations: classpath:/static/
+
+mybatis:
+  type-aliases-package: com.hqb.patshop.mbg.dao
+  mapper-locations: classpath:dao/generator/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml
+
+
+debug: true

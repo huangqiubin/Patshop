@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "com.config.constant",
+      "type": "com.hqb.patshop.config.constant.ConstantBean",
+      "sourceType": "com.hqb.patshop.config.constant.ConstantBean"
+    }
+  ],
+  "properties": [
+    {
+      "name": "com.config.constant.debug",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.hqb.patshop.config.constant.ConstantBean"
+    }
+  ],
+  "hints": []
+}
