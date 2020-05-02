@@ -54,6 +54,7 @@ public class CommunityServiceImpl implements CommunityService {
         smsTopic.setTopicContent(topic.getTopicContent());
         smsTopic.setTopicTitle("");
         smsTopic.setTopicCategory(topic.getTopicType());
+        smsTopic.setTopicImage(topic.getTopicImage());
         //获取话题二级目录id
         int secTopicTypeId = smsSecTopicDao.selectPrimaryKeyBySecTopicName(topic.getTopicSecType());
         smsTopic.setSecTopicId(secTopicTypeId);

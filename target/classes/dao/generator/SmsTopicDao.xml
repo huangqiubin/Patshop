@@ -64,10 +64,12 @@
             useGeneratedKeys="true">
     insert into sms_topic (topic_type, topic_content, topic_image,
       user_id, create_time, topic_category,
-      topic_title, sec_topic_id, hot_topic)
+      topic_title, sec_topic_id, hot_topic,
+       user_nickname, topic_hot_value, user_avatar)
     values (#{topicType,jdbcType=INTEGER}, #{topicContent,jdbcType=VARCHAR}, #{topicImage,jdbcType=VARCHAR},
       #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{topicCategory,jdbcType=VARCHAR},
-      #{topicTitle,jdbcType=VARCHAR}, #{secTopicId,jdbcType=INTEGER}, #{hotTopic,jdbcType=INTEGER})
+      #{topicTitle,jdbcType=VARCHAR}, #{secTopicId,jdbcType=INTEGER}, #{hotTopic,jdbcType=INTEGER},
+      #{userNickname,jdbcType=VARCHAR}, #{topicHotValue,jdbcType=FLOAT}, #{userAvatar,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.SmsTopic"
             useGeneratedKeys="true">

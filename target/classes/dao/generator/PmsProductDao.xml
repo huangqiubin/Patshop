@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqb.patshop.mbg.dao.PmsProductDao">
+    <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.PmsProductModel">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="delete_status" jdbcType="INTEGER" property="deleteStatus"/>
+        <result column="sale" jdbcType="INTEGER" property="sale"/>
+        <result column="market_price" jdbcType="DECIMAL" property="marketPrice"/>
+        <result column="current_price" jdbcType="DECIMAL" property="currentPrice"/>
+        <result column="historical_pat_coin" jdbcType="VARCHAR" property="historicalPatCoin"/>
+        <result column="sub_title" jdbcType="VARCHAR" property="subTitle"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="service_ids" jdbcType="VARCHAR" property="serviceIds"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="album_pics" jdbcType="VARCHAR" property="albumPics"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="bids" jdbcType="INTEGER" property="bids"/>
+        <result column="onlookers" jdbcType="INTEGER" property="onlookers"/>
+        <result column="bid_countdown" jdbcType="TIMESTAMP" property="bidCountdown"/>
+        <result column="start_price" jdbcType="DECIMAL" property="startPrice"/>
+        <result column="refund_rate" jdbcType="TINYINT" property="refundRate"/>
+        <result column="handling_fee" jdbcType="DECIMAL" property="handlingFee"/>
+        <result column="markup" jdbcType="DECIMAL" property="markup"/>
+        <result column="cur_pat_coin" jdbcType="VARCHAR" property="curPatCoin"/>
+        <result column="cur_pat_user_nickname" jdbcType="VARCHAR" property="curPatUserNickname"/>
+        <result column="cur_pat_user_avatar" jdbcType="VARCHAR" property="curPatUserAvatar"/>
+        <result column="cur_pat_time" jdbcType="VARCHAR" property="curPatTime"/>
+        <result column="cur_pat_user_id" jdbcType="VARCHAR" property="curPatUserId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, gmt_create, gmt_modified, product_category_id, `name`, pic, delete_status, sale, 
+    market_price, current_price, historical_pat_coin, sub_title, stock, service_ids, 
+    keywords, album_pics, category_name, bids, onlookers, bid_countdown, start_price, 
+    refund_rate, handling_fee, markup, cur_pat_coin, cur_pat_user_nickname, cur_pat_user_avatar, 
+    cur_pat_time, cur_pat_user_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_product1
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPrimaryKeyForUpdate" resultType="com.hqb.patshop.mbg.model.PmsProductModel">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_product1
+        where id = #{id,jdbcType=BIGINT} for update
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from pms_product1
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.PmsProductModel"
+            useGeneratedKeys="true">
+    insert into pms_product1 (gmt_create, gmt_modified, product_category_id, 
+      `name`, pic, delete_status, 
+      sale, market_price, current_price, 
+      historical_pat_coin, sub_title, stock, 
+      service_ids, keywords, album_pics, 
+      category_name, bids, onlookers, 
+      bid_countdown, start_price, refund_rate, 
+      handling_fee, markup, cur_pat_coin, 
+      cur_pat_user_nickname, cur_pat_user_avatar, cur_pat_time,
+      cur_pat_user_id
+      )
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{productCategoryId,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{deleteStatus,jdbcType=INTEGER}, 
+      #{sale,jdbcType=INTEGER}, #{marketPrice,jdbcType=DECIMAL}, #{currentPrice,jdbcType=DECIMAL}, 
+      #{historicalPatCoin,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, 
+      #{serviceIds,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{albumPics,jdbcType=VARCHAR}, 
+      #{categoryName,jdbcType=VARCHAR}, #{bids,jdbcType=INTEGER}, #{onlookers,jdbcType=INTEGER}, 
+      #{bidCountdown,jdbcType=TIMESTAMP}, #{startPrice,jdbcType=DECIMAL}, #{refundRate,jdbcType=TINYINT}, 
+      #{handlingFee,jdbcType=DECIMAL}, #{markup,jdbcType=DECIMAL}, #{curPatCoin,jdbcType=VARCHAR}, 
+      #{curPatUserNickname,jdbcType=VARCHAR}, #{curPatUserAvatar,jdbcType=VARCHAR}, #{curPatTime,jdbcType=VARCHAR},
+      #{curPatUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.hqb.patshop.mbg.model.PmsProductModel" useGeneratedKeys="true">
+        insert into pms_product1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+            <if test="productCategoryId != null">
+                product_category_id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="deleteStatus != null">
+                delete_status,
+            </if>
+            <if test="sale != null">
+                sale,
+            </if>
+            <if test="marketPrice != null">
+                market_price,
+            </if>
+            <if test="currentPrice != null">
+                current_price,
+            </if>
+            <if test="historicalPatCoin != null">
+                historical_pat_coin,
+            </if>
+            <if test="subTitle != null">
+                sub_title,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="serviceIds != null">
+                service_ids,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="albumPics != null">
+                album_pics,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="bids != null">
+                bids,
+            </if>
+            <if test="onlookers != null">
+                onlookers,
+            </if>
+            <if test="bidCountdown != null">
+                bid_countdown,
+            </if>
+            <if test="startPrice != null">
+                start_price,
+            </if>
+            <if test="refundRate != null">
+                refund_rate,
+            </if>
+            <if test="handlingFee != null">
+                handling_fee,
+            </if>
+            <if test="markup != null">
+                markup,
+            </if>
+            <if test="curPatCoin != null">
+                cur_pat_coin,
+            </if>
+            <if test="curPatUserNickname != null">
+                cur_pat_user_nickname,
+            </if>
+            <if test="curPatUserAvatar != null">
+                cur_pat_user_avatar,
+            </if>
+            <if test="curPatTime != null">
+                cur_pat_time,
+            </if>
+            <if test="curPatUserId !=null">
+                cur_pat_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productCategoryId != null">
+                #{productCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null">
+                #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteStatus != null">
+                #{deleteStatus,jdbcType=INTEGER},
+            </if>
+            <if test="sale != null">
+                #{sale,jdbcType=INTEGER},
+            </if>
+            <if test="marketPrice != null">
+                #{marketPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="currentPrice != null">
+                #{currentPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="historicalPatCoin != null">
+                #{historicalPatCoin,jdbcType=VARCHAR},
+            </if>
+            <if test="subTitle != null">
+                #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="serviceIds != null">
+                #{serviceIds,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null">
+                #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="albumPics != null">
+                #{albumPics,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="bids != null">
+                #{bids,jdbcType=INTEGER},
+            </if>
+            <if test="onlookers != null">
+                #{onlookers,jdbcType=INTEGER},
+            </if>
+            <if test="bidCountdown != null">
+                #{bidCountdown,jdbcType=TIMESTAMP},
+            </if>
+            <if test="startPrice != null">
+                #{startPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="refundRate != null">
+                #{refundRate,jdbcType=TINYINT},
+            </if>
+            <if test="handlingFee != null">
+                #{handlingFee,jdbcType=DECIMAL},
+            </if>
+            <if test="markup != null">
+                #{markup,jdbcType=DECIMAL},
+            </if>
+            <if test="curPatCoin != null">
+                #{curPatCoin,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserNickname != null">
+                #{curPatUserNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserAvatar != null">
+                #{curPatUserAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatTime != null">
+                #{curPatTime,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserId != null">
+                #{curPatUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.PmsProductModel">
+        update pms_product1
+        <set>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productCategoryId != null">
+                product_category_id = #{productCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null">
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteStatus != null">
+                delete_status = #{deleteStatus,jdbcType=INTEGER},
+            </if>
+            <if test="sale != null">
+                sale = #{sale,jdbcType=INTEGER},
+            </if>
+            <if test="marketPrice != null">
+                market_price = #{marketPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="currentPrice != null">
+                current_price = #{currentPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="historicalPatCoin != null">
+                historical_pat_coin = #{historicalPatCoin,jdbcType=VARCHAR},
+            </if>
+            <if test="subTitle != null">
+                sub_title = #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="serviceIds != null">
+                service_ids = #{serviceIds,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="albumPics != null">
+                album_pics = #{albumPics,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="bids != null">
+                bids = #{bids,jdbcType=INTEGER},
+            </if>
+            <if test="onlookers != null">
+                onlookers = #{onlookers,jdbcType=INTEGER},
+            </if>
+            <if test="bidCountdown != null">
+                bid_countdown = #{bidCountdown,jdbcType=TIMESTAMP},
+            </if>
+            <if test="startPrice != null">
+                start_price = #{startPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="refundRate != null">
+                refund_rate = #{refundRate,jdbcType=TINYINT},
+            </if>
+            <if test="handlingFee != null">
+                handling_fee = #{handlingFee,jdbcType=DECIMAL},
+            </if>
+            <if test="markup != null">
+                markup = #{markup,jdbcType=DECIMAL},
+            </if>
+            <if test="curPatCoin != null">
+                cur_pat_coin = #{curPatCoin,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserNickname != null">
+                cur_pat_user_nickname = #{curPatUserNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserAvatar != null">
+                cur_pat_user_avatar = #{curPatUserAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatTime != null">
+                cur_pat_time = #{curPatTime,jdbcType=VARCHAR},
+            </if>
+            <if test="curPatUserId != null">
+                cur_pat_user_id = #{curPatUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.PmsProductModel">
+    update pms_product1
+    set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      `name` = #{name,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      sale = #{sale,jdbcType=INTEGER},
+      market_price = #{marketPrice,jdbcType=DECIMAL},
+      current_price = #{currentPrice,jdbcType=DECIMAL},
+      historical_pat_coin = #{historicalPatCoin,jdbcType=VARCHAR},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      service_ids = #{serviceIds,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      album_pics = #{albumPics,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      bids = #{bids,jdbcType=INTEGER},
+      onlookers = #{onlookers,jdbcType=INTEGER},
+      bid_countdown = #{bidCountdown,jdbcType=TIMESTAMP},
+      start_price = #{startPrice,jdbcType=DECIMAL},
+      refund_rate = #{refundRate,jdbcType=TINYINT},
+      handling_fee = #{handlingFee,jdbcType=DECIMAL},
+      markup = #{markup,jdbcType=DECIMAL},
+      cur_pat_coin = #{curPatCoin,jdbcType=VARCHAR},
+      cur_pat_user_nickname = #{curPatUserNickname,jdbcType=VARCHAR},
+      cur_pat_user_avatar = #{curPatUserAvatar,jdbcType=VARCHAR},
+      cur_pat_time = #{curPatTime,jdbcType=VARCHAR},
+      cur_pat_user_id = #{curPatUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

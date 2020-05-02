@@ -3,7 +3,6 @@ package app.home;
 import com.hqb.patshop.PatshopApplication;
 import com.hqb.patshop.app.home.service.impl.HomeServiceImpl;
 import com.hqb.patshop.app.login.service.impl.LoginServiceImpl;
-import com.hqb.patshop.common.api.CommonResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class HomeControllerTest {
 
     @Test
     public void testProductDetail() {
-        System.out.println(homeService.productDetail(28));
+        System.out.println(homeService.productDetail(28).getPmsProductModel());
     }
 
     @Test
@@ -41,7 +40,13 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void testLogin(){
+    public void testLogin() {
         System.out.println(loginService.login(190));
     }
+
+    @Test
+    public void testBid() {
+        System.out.println("bid result " + homeService.bidProduct(28, 15.0, "18378583474"));
+    }
+
 }

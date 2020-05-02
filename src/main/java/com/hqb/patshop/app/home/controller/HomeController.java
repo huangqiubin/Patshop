@@ -1,9 +1,6 @@
 package com.hqb.patshop.app.home.controller;
 
-import com.hqb.patshop.app.home.domain.HomeBidProductResult;
-import com.hqb.patshop.app.home.domain.HomeContentResult;
-import com.hqb.patshop.app.home.domain.HomeHotBidResult;
-import com.hqb.patshop.app.home.domain.ProductDetailResult;
+import com.hqb.patshop.app.home.domain.*;
 import com.hqb.patshop.app.home.service.HomeService;
 import com.hqb.patshop.common.api.CommonResult;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -20,6 +17,7 @@ public class HomeController {
 
     /**
      * 获取首页内容
+     *
      * @return
      */
     @RequestMapping(value = "/content", method = RequestMethod.GET)
@@ -31,6 +29,7 @@ public class HomeController {
 
     /**
      * 获取首页分类拍品
+     *
      * @return
      */
     @RequestMapping(value = "/bid_product", method = RequestMethod.GET)
@@ -41,6 +40,7 @@ public class HomeController {
 
     /**
      * 获取首页热门拍卖
+     *
      * @return
      */
     @RequestMapping(value = "/home_hot_bid", method = RequestMethod.GET)
@@ -53,9 +53,29 @@ public class HomeController {
      * 获取商品详情
      */
     @RequestMapping(value = "/product_detail", method = RequestMethod.GET)
-    public CommonResult<ProductDetailResult> productDetail(int productId){
+    public CommonResult<ProductDetailResult> productDetail(long productId) {
         ProductDetailResult productDetailResult = homeService.productDetail(productId);
         return CommonResult.success(productDetailResult);
+    }
+
+    /**
+     * 商品竞拍接口
+     *
+     * @param productId  商品id
+     * @param bidPatCoin 竞拍价格
+     * @param userName   用户名
+     * @return
+     */
+    @RequestMapping(value = "/bid_product_l", method = RequestMethod. GET)
+    public CommonResult<Integer> bidProduct(long productId, Double bidPatCoin, String userName) {
+        int result = homeService.bidProduct(productId, bidPatCoin, userName);
+        String message = new String();
+        if (result == 0) {
+            message = "竞拍成功";
+        } else {
+            message = "竞拍失败，有人抢先一步竞拍";
+        }
+        return CommonResult.success(result, message);
     }
 
 

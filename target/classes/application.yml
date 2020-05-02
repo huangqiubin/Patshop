@@ -7,11 +7,21 @@ spring:
     filters: stat
   resources:
     static-locations: classpath:/static/
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  servlet:
+    multipart:
+      # 启用
+      enabled: true
+      # 上传文件单个限制
+      max-file-size: 5MB
+      # 总限制
+      max-request-size: 10MB
 
 mybatis:
   type-aliases-package: com.hqb.patshop.mbg.dao
   mapper-locations: classpath:dao/generator/*.xml
   config-location: classpath:mybatis/mybatis-config.xml
-
 
 debug: true

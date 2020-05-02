@@ -4,6 +4,7 @@ public class TopicPostDTO {
     private String topicType;
     private String topicSecType;
     private String topicContent;
+    private String topicImage;
 
     public String getTopicType() {
         return topicType;
@@ -27,5 +28,13 @@ public class TopicPostDTO {
 
     public void setTopicContent(String topicContent) {
         this.topicContent = topicContent;
+    }
+
+    public String getTopicImage() {
+        return topicImage;
+    }
+
+    public void setTopicImage(String topicImage) {
+        this.topicImage = topicImage;
     }
 }

@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.ResourceUtils;
+
+import java.io.FileNotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {PatshopApplication.class})
@@ -45,5 +48,16 @@ public class CommunityTest {
     @Test
     public void testSelectIdByTopicName() {
         System.out.println("我买过的惊喜好物" + smsSecTopicDao.selectPrimaryKeyBySecTopicName("我买过的惊喜好物"));
+    }
+
+    @Test
+    public void testPath() {
+        try {
+            System.out.println(ResourceUtils.getURL("classpath:static").getPath());
+            System.out.println(ResourceUtils.getURL("classpath:static").getPath());
+            System.out.println(this.getClass().getResource("/").getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

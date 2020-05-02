@@ -13,5 +13,4 @@ public interface SmsHomeAdvertiseMapper {
 
     List<SmsHomeHot> selectAllHomeHot();
 
-    PmsProduct1Dao selectProductDetail(int productId);
 }

@@ -31,5 +31,10 @@ public interface HomeService {
     /**
      * 获取商品详情
      */
-    ProductDetailResult productDetail(int productId);
+    ProductDetailResult productDetail(long productId);
+
+    /**
+     * 出价竞拍
+     */
+    Integer bidProduct(long productId, Double bidPatCoin, String userName);
 }

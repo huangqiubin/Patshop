@@ -1,22 +1,22 @@
 package com.hqb.patshop.app.home.domain;
 
-import com.hqb.patshop.mbg.model.PmsProduct1Dao;
+import com.hqb.patshop.mbg.model.PmsProductModel;
 
 public class ProductDetailResult {
-    private PmsProduct1Dao pmsProduct1Dao;
+    private PmsProductModel pmsProductModel;
 
-    public PmsProduct1Dao getPmsProduct1Dao() {
-        return pmsProduct1Dao;
+    public PmsProductModel getPmsProductModel() {
+        return pmsProductModel;
     }
 
-    public void setPmsProduct1Dao(PmsProduct1Dao pmsProduct1Dao) {
-        this.pmsProduct1Dao = pmsProduct1Dao;
+    public void setPmsProductModel(PmsProductModel pmsProductModel) {
+        this.pmsProductModel = pmsProductModel;
     }
 
     @Override
     public String toString() {
         return "ProductDetailResult{" +
-                "pmsProduct1Dao=" + pmsProduct1Dao +
+                "pmsProductModel=" + pmsProductModel +
                 '}';
     }
 }

@@ -7,9 +7,12 @@ import com.hqb.patshop.app.home.service.CommunityService;
 import com.hqb.patshop.common.api.CommonResult;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ClassUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/community")
@@ -32,8 +35,31 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/post_topic", method = RequestMethod.POST)
-    public CommonResult<Integer> postTopic(TopicPostDTO topic){
+    public CommonResult<Integer> postTopic(String topicType, String topicSecType, String topicContent, MultipartFile[] files) {
+        StringBuilder imageBuilder = new StringBuilder();
+        for (MultipartFile file : files) {
+            try {
+                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
+                imageBuilder.append(fileName).append(",");
+                String destFilePath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+                String destFileName = destFilePath + File.separator + fileName;
+                System.out.println("存储路径" + destFileName);
+                File destFile = new File(destFileName);
+                destFile.getParentFile().mkdirs();
+                file.transferTo(destFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("文件没找到异常");
+                return CommonResult.failed("文件没找到异常");
+            }
+        }
+        TopicPostDTO topic = new TopicPostDTO();
+        topic.setTopicType(topicType);
+        topic.setTopicSecType(topicSecType);
+        topic.setTopicContent(topicContent);
+        topic.setTopicImage(imageBuilder.toString());
         Integer integer = communityService.postTopic(topic);
         return CommonResult.success(integer);
     }
+
 }

@@ -18,8 +18,4 @@
         select * from sms_home_hot
     </select>
 
-    <select id="selectProductDetail" resultType="com.hqb.patshop.mbg.model.PmsProduct1Dao">
-        select * from pms_product1 where id = #{productId}
-    </select>
-
 </mapper>
