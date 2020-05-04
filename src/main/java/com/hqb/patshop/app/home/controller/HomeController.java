@@ -73,7 +73,7 @@ public class HomeController {
         if (result == 0) {
             message = "竞拍成功";
         } else {
-            message = "竞拍失败，有人抢先一步竞拍";
+            message = "竞拍失败";
         }
         return CommonResult.success(result, message);
     }

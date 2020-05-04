@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix="com.config.constant")
 public class ConstantBean {
 
-    private boolean isDebug = true;
+    private boolean isDebug = false;
 
     public boolean isDebug() {
         return isDebug;

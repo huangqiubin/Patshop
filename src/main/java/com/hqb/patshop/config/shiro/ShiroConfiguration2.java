@@ -56,8 +56,8 @@ public class ShiroConfiguration2 {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         //配置映射关系
         filterChainDefinitionMap.put("/login/login", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/index", "anon");
-        filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
         filterChainDefinitionMap.put("/doLogout", "logout");
         if (constantBean.isDebug()) {

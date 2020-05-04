@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,7 +69,7 @@ public class HomeServiceImpl implements HomeService {
      * @param productId
      * @param bidPatCoin
      * @param userName
-     * @return -1用户不存在 1竞拍结束 2竞拍失败 0竞拍成功
+     * @return -1用户不存在 1竞拍结束 2竞拍失败 3重复出价 4出价过低 0竞拍成功
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
@@ -78,10 +79,23 @@ public class HomeServiceImpl implements HomeService {
             return -1;//用户不存在
         }
         PmsProductModel productModel = productDao.selectByPrimaryKeyForUpdate(productId);
+        //判断是否截拍
         Date endDate = productModel.getBidCountdown();
         Date nowDate = new Date();
-        if (endDate.getTime() < nowDate.getTime()){
+        if (endDate.getTime() < nowDate.getTime()) {
             return 1;//竞拍结束
+        }
+        //判断是否是同一用户重复出价
+        String userIdStr = productModel.getCurPatUserId().split(",")[0];
+        int userId = Integer.parseInt(userIdStr);
+        if (memberDao.getId() == userId) {
+            return 3;//同一用户重复出价
+        }
+        //判断竞拍价格
+        String curPatCoinStr = productModel.getCurPatCoin().split(",")[0];
+        Double curPatCoin = Double.parseDouble(curPatCoinStr);
+        if (curPatCoin >= bidPatCoin) {
+            return 4;//出价过小
         }
         DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
         productModel.setCurPatCoin(bidPatCoin + "," + productModel.getCurPatCoin());
@@ -89,6 +103,7 @@ public class HomeServiceImpl implements HomeService {
         productModel.setCurPatUserAvatar(memberDao.getIcon() + "," + productModel.getCurPatUserAvatar());
         productModel.setCurPatTime(dateFormat.format(nowDate) + "," + productModel.getCurPatTime());
         productModel.setCurPatUserId(memberDao.getId() + "," + productModel.getCurPatUserId());
+        productModel.setCurrentPrice(BigDecimal.valueOf(bidPatCoin));
         int result = productDao.updateByPrimaryKeySelective(productModel);
         if (result > 0) {
             return 0;//竞拍成功

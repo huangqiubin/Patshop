@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     filters: stat
   resources:
-    static-locations: classpath:/static/
+    static-locations: classpath:/img/
   jackson:
     serialization:
       write-dates-as-timestamps: true

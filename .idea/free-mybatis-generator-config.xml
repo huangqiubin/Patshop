@@ -3,6 +3,31 @@
   <component name="PersistentConfig">
     <option name="historyConfigList">
       <map>
+        <entry key="pms_bid_result">
+          <value>
+            <Config>
+              <option name="comment" value="true" />
+              <option name="daoMvnPath" value="src/main/java" />
+              <option name="daoName" value="PmsBidResultPmsBidResultDao" />
+              <option name="daoPackage" value="com.hqb.patshop.mbg.dao" />
+              <option name="daoPostfix" value="PmsBidResultPmsBidResultDao" />
+              <option name="modelMvnPath" value="src/main/java" />
+              <option name="modelName" value="PmsBidResultModel" />
+              <option name="modelPackage" value="com.hqb.patshop.mbg.model" />
+              <option name="name" value="pms_bid_result" />
+              <option name="needToStringHashcodeEquals" value="true" />
+              <option name="overrideJava" value="true" />
+              <option name="overrideXML" value="true" />
+              <option name="primaryKey" value="id" />
+              <option name="projectFolder" value="$PROJECT_DIR$" />
+              <option name="tableName" value="pms_bid_result" />
+              <option name="useLombokPlugin" value="true" />
+              <option name="useSchemaPrefix" value="true" />
+              <option name="xmlMvnPath" value="src/main/resources" />
+              <option name="xmlPackage" value="dao.generator" />
+            </Config>
+          </value>
+        </entry>
         <entry key="pms_product1">
           <value>
             <Config>
