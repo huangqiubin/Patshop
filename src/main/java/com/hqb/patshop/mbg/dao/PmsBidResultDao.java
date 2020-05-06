@@ -2,16 +2,23 @@ package com.hqb.patshop.mbg.dao;
 
 import com.hqb.patshop.mbg.model.PmsBidResultModel;
 
+import java.util.List;
+
 public interface PmsBidResultDao {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(PmsBidResultModel record);
 
     int insertSelective(PmsBidResultModel record);
 
-    PmsBidResultModel selectByPrimaryKey(Integer id);
+    PmsBidResultModel selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(PmsBidResultModel record);
 
     int updateByPrimaryKey(PmsBidResultModel record);
+
+    int selectCountByUserId(Long userId);
+
+    List<PmsBidResultModel> selectAllByUserId(Long userId);
+
 }

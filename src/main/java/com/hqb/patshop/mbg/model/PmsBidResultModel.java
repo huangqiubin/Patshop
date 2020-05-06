@@ -12,17 +12,17 @@ public class PmsBidResultModel implements Serializable {
     /**
      * 主键
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 商品id
      */
-    private Integer productId;
+    private Long productId;
 
     /**
      * 竞拍结果 0竞拍成功 1竞拍失败 2领先 3落后
@@ -33,6 +33,21 @@ public class PmsBidResultModel implements Serializable {
      * 商品成交最终价格
      */
     private Double productBidCoin;
+
+    /**
+     * 竞拍商品
+     */
+    private String productIcon;
+
+    /**
+     * 竞拍次数
+     */
+    private Integer productBidNum;
+
+    /**
+     * 商品标题介绍
+     */
+    private String productTitle;
 
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +67,10 @@ public class PmsBidResultModel implements Serializable {
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getProductId() == null ? other.getProductId() == null : this.getProductId().equals(other.getProductId()))
             && (this.getBidResult() == null ? other.getBidResult() == null : this.getBidResult().equals(other.getBidResult()))
-            && (this.getProductBidCoin() == null ? other.getProductBidCoin() == null : this.getProductBidCoin().equals(other.getProductBidCoin()));
+            && (this.getProductBidCoin() == null ? other.getProductBidCoin() == null : this.getProductBidCoin().equals(other.getProductBidCoin()))
+            && (this.getProductIcon() == null ? other.getProductIcon() == null : this.getProductIcon().equals(other.getProductIcon()))
+            && (this.getProductBidNum() == null ? other.getProductBidNum() == null : this.getProductBidNum().equals(other.getProductBidNum()))
+            && (this.getProductTitle() == null ? other.getProductTitle() == null : this.getProductTitle().equals(other.getProductTitle()));
     }
 
     @Override
@@ -64,6 +82,9 @@ public class PmsBidResultModel implements Serializable {
         result = prime * result + ((getProductId() == null) ? 0 : getProductId().hashCode());
         result = prime * result + ((getBidResult() == null) ? 0 : getBidResult().hashCode());
         result = prime * result + ((getProductBidCoin() == null) ? 0 : getProductBidCoin().hashCode());
+        result = prime * result + ((getProductIcon() == null) ? 0 : getProductIcon().hashCode());
+        result = prime * result + ((getProductBidNum() == null) ? 0 : getProductBidNum().hashCode());
+        result = prime * result + ((getProductTitle() == null) ? 0 : getProductTitle().hashCode());
         return result;
     }
 
@@ -78,6 +99,9 @@ public class PmsBidResultModel implements Serializable {
         sb.append(", productId=").append(productId);
         sb.append(", bidResult=").append(bidResult);
         sb.append(", productBidCoin=").append(productBidCoin);
+        sb.append(", productIcon=").append(productIcon);
+        sb.append(", productBidNum=").append(productBidNum);
+        sb.append(", productTitle=").append(productTitle);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,87 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hqb.patshop.mbg.dao.PmsBidResultDao">
-  <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.PmsBidResultModel">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="product_id" jdbcType="INTEGER" property="productId" />
-    <result column="bid_result" jdbcType="INTEGER" property="bidResult" />
-    <result column="product_bid_coin" jdbcType="DOUBLE" property="productBidCoin" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, user_id, product_id, bid_result, product_bid_coin
+    <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.PmsBidResultModel">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="bid_result" jdbcType="INTEGER" property="bidResult"/>
+        <result column="product_bid_coin" jdbcType="DOUBLE" property="productBidCoin"/>
+        <result column="product_icon" jdbcType="VARCHAR" property="productIcon"/>
+        <result column="product_bid_num" jdbcType="INTEGER" property="productBidNum"/>
+        <result column="product_title" jdbcType="VARCHAR" property="productTitle"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, product_id, bid_result, product_bid_coin, product_icon, product_bid_num, 
+    product_title
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from pms_bid_result
-    where id = #{id,jdbcType=INTEGER}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_bid_result
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectCountByUserId" resultType="java.lang.Integer">
+    select count(user_id) from pms_bid_result
+    where  user_id = #{userId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectAllByUserId" resultType="com.hqb.patshop.mbg.model.PmsBidResultModel">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_bid_result
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from pms_bid_result
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel"
+            useGeneratedKeys="true">
     insert into pms_bid_result (user_id, product_id, bid_result, 
-      product_bid_coin)
-    values (#{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{bidResult,jdbcType=INTEGER}, 
-      #{productBidCoin,jdbcType=DOUBLE})
+      product_bid_coin, product_icon, product_bid_num, 
+      product_title)
+    values (#{userId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{bidResult,jdbcType=INTEGER}, 
+      #{productBidCoin,jdbcType=DOUBLE}, #{productIcon,jdbcType=VARCHAR}, #{productBidNum,jdbcType=INTEGER}, 
+      #{productTitle,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel" useGeneratedKeys="true">
-    insert into pms_bid_result
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="productId != null">
-        product_id,
-      </if>
-      <if test="bidResult != null">
-        bid_result,
-      </if>
-      <if test="productBidCoin != null">
-        product_bid_coin,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null">
-        #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="bidResult != null">
-        #{bidResult,jdbcType=INTEGER},
-      </if>
-      <if test="productBidCoin != null">
-        #{productBidCoin,jdbcType=DOUBLE},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel" useGeneratedKeys="true">
+        insert into pms_bid_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="bidResult != null">
+                bid_result,
+            </if>
+            <if test="productBidCoin != null">
+                product_bid_coin,
+            </if>
+            <if test="productIcon != null">
+                product_icon,
+            </if>
+            <if test="productBidNum != null">
+                product_bid_num,
+            </if>
+            <if test="productTitle != null">
+                product_title,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="bidResult != null">
+                #{bidResult,jdbcType=INTEGER},
+            </if>
+            <if test="productBidCoin != null">
+                #{productBidCoin,jdbcType=DOUBLE},
+            </if>
+            <if test="productIcon != null">
+                #{productIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="productBidNum != null">
+                #{productBidNum,jdbcType=INTEGER},
+            </if>
+            <if test="productTitle != null">
+                #{productTitle,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel">
+        update pms_bid_result
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="bidResult != null">
+                bid_result = #{bidResult,jdbcType=INTEGER},
+            </if>
+            <if test="productBidCoin != null">
+                product_bid_coin = #{productBidCoin,jdbcType=DOUBLE},
+            </if>
+            <if test="productIcon != null">
+                product_icon = #{productIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="productBidNum != null">
+                product_bid_num = #{productBidNum,jdbcType=INTEGER},
+            </if>
+            <if test="productTitle != null">
+                product_title = #{productTitle,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel">
     update pms_bid_result
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null">
-        product_id = #{productId,jdbcType=INTEGER},
-      </if>
-      <if test="bidResult != null">
-        bid_result = #{bidResult,jdbcType=INTEGER},
-      </if>
-      <if test="productBidCoin != null">
-        product_bid_coin = #{productBidCoin,jdbcType=DOUBLE},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.PmsBidResultModel">
-    update pms_bid_result
-    set user_id = #{userId,jdbcType=INTEGER},
-      product_id = #{productId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
       bid_result = #{bidResult,jdbcType=INTEGER},
-      product_bid_coin = #{productBidCoin,jdbcType=DOUBLE}
-    where id = #{id,jdbcType=INTEGER}
+      product_bid_coin = #{productBidCoin,jdbcType=DOUBLE},
+      product_icon = #{productIcon,jdbcType=VARCHAR},
+      product_bid_num = #{productBidNum,jdbcType=INTEGER},
+      product_title = #{productTitle,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
+
 </mapper>

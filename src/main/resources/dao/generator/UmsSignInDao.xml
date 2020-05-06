@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqb.patshop.mbg.dao.UmsSignInDao">
+    <resultMap id="BaseResultMap" type="com.hqb.patshop.mbg.model.UmsSignInModel">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="sign_date" jdbcType="TIMESTAMP" property="signDate"/>
+        <result column="reward_coin" jdbcType="INTEGER" property="rewardCoin"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, sign_date, reward_coin
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ums_sign_in
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectLastByUserName" resultType="com.hqb.patshop.mbg.model.UmsSignInModel">
+        select
+        <include refid="Base_Column_List"/>
+        from ums_sign_in where username = #{userName,jdbcType=VARCHAR} order by id DESC limit 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ums_sign_in
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hqb.patshop.mbg.model.UmsSignInModel"
+            useGeneratedKeys="true">
+    insert into ums_sign_in (username, sign_date, reward_coin
+      )
+    values (#{username,jdbcType=VARCHAR}, #{signDate,jdbcType=TIMESTAMP}, #{rewardCoin,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.hqb.patshop.mbg.model.UmsSignInModel" useGeneratedKeys="true">
+        insert into ums_sign_in
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="signDate != null">
+                sign_date,
+            </if>
+            <if test="rewardCoin != null">
+                reward_coin,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="signDate != null">
+                #{signDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rewardCoin != null">
+                #{rewardCoin,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hqb.patshop.mbg.model.UmsSignInModel">
+        update ums_sign_in
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="signDate != null">
+                sign_date = #{signDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rewardCoin != null">
+                reward_coin = #{rewardCoin,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hqb.patshop.mbg.model.UmsSignInModel">
+    update ums_sign_in
+    set username = #{username,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=TIMESTAMP},
+      reward_coin = #{rewardCoin,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
