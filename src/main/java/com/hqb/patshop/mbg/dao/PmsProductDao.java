@@ -3,6 +3,7 @@ package com.hqb.patshop.mbg.dao;
 import com.hqb.patshop.mbg.model.PmsProductModel;
 
 public interface PmsProductDao {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(PmsProductModel record);

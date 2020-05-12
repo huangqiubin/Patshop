@@ -1,13 +1,13 @@
 package com.hqb.patshop.app.login.service;
 
-import com.hqb.patshop.mbg.model.UmsMemberDao;
+import com.hqb.patshop.mbg.model.UmsMember;
 
 /**
  * 获取用户信息
  */
 public interface MemberService {
 
-    UmsMemberDao getMemberInfo(String userName);
+    UmsMember getMemberInfo(String userName);
 
     String getMemberPassword(String userName);
 }

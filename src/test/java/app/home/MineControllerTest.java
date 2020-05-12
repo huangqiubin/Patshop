@@ -17,7 +17,7 @@ public class MineControllerTest {
 
     @Test
     public void testBidSale() {
-        System.out.println(mineService.bidSaleContent("18378583473"));
+        System.out.println(mineService.bidSaleContent("984133573"));
     }
 
 }

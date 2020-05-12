@@ -16,6 +16,11 @@ public class ActivityTest {
     ActivityService activityService;
 
     @Test
+    public void testActivityContent(){
+        System.out.println(activityService.getSignInModel("18378583473"));
+    }
+
+    @Test
     public void testSignIn(){
         System.out.println(activityService.getSignInModel("18378583473"));
     }

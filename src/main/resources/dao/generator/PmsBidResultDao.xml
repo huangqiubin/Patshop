@@ -11,8 +11,45 @@
         <result column="product_bid_num" jdbcType="INTEGER" property="productBidNum"/>
         <result column="product_title" jdbcType="VARCHAR" property="productTitle"/>
     </resultMap>
+    <resultMap id="BaseResultModel" type="com.hqb.patshop.mbg.model.BidResultModel">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <association property="productModel" javaType="com.hqb.patshop.mbg.model.PmsProductModel">
+            <id column="p_id" jdbcType="BIGINT" property="id"/>
+            <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+            <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+            <result column="product_category_id" jdbcType="BIGINT" property="productCategoryId"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <result column="pic" jdbcType="VARCHAR" property="pic"/>
+            <result column="delete_status" jdbcType="INTEGER" property="deleteStatus"/>
+            <result column="sale" jdbcType="INTEGER" property="sale"/>
+            <result column="market_price" jdbcType="DECIMAL" property="marketPrice"/>
+            <result column="current_price" jdbcType="DECIMAL" property="currentPrice"/>
+            <result column="historical_pat_coin" jdbcType="VARCHAR" property="historicalPatCoin"/>
+            <result column="sub_title" jdbcType="VARCHAR" property="subTitle"/>
+            <result column="stock" jdbcType="INTEGER" property="stock"/>
+            <result column="service_ids" jdbcType="VARCHAR" property="serviceIds"/>
+            <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+            <result column="album_pics" jdbcType="VARCHAR" property="albumPics"/>
+            <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+            <result column="bids" jdbcType="INTEGER" property="bids"/>
+            <result column="onlookers" jdbcType="INTEGER" property="onlookers"/>
+            <result column="bid_countdown" jdbcType="TIMESTAMP" property="bidCountdown"/>
+            <result column="start_price" jdbcType="DECIMAL" property="startPrice"/>
+            <result column="refund_rate" jdbcType="TINYINT" property="refundRate"/>
+            <result column="handling_fee" jdbcType="DECIMAL" property="handlingFee"/>
+            <result column="markup" jdbcType="DECIMAL" property="markup"/>
+            <result column="cur_pat_coin" jdbcType="VARCHAR" property="curPatCoin"/>
+            <result column="cur_pat_user_nickname" jdbcType="VARCHAR" property="curPatUserNickname"/>
+            <result column="cur_pat_user_avatar" jdbcType="VARCHAR" property="curPatUserAvatar"/>
+            <result column="cur_pat_time" jdbcType="VARCHAR" property="curPatTime"/>
+            <result column="cur_pat_user_id" jdbcType="VARCHAR" property="curPatUserId"/>
+        </association>
+    </resultMap>
+
     <sql id="Base_Column_List">
-    id, user_id, product_id, bid_result, product_bid_coin, product_icon, product_bid_num, 
+    id, user_id, product_id, bid_result, product_bid_coin, product_icon, product_bid_num,
     product_title
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -25,11 +62,11 @@
     select count(user_id) from pms_bid_result
     where  user_id = #{userId,jdbcType=BIGINT}
   </select>
-    <select id="selectAllByUserId" resultType="com.hqb.patshop.mbg.model.PmsBidResultModel">
-        select
-        <include refid="Base_Column_List"/>
-        from pms_bid_result
-        where user_id = #{userId,jdbcType=BIGINT}
+    <select id="selectAllResultByUserId" resultMap="BaseResultModel">
+       select
+            s.id, s.user_id, s.product_id,
+            p.id as p_id, p.*
+            from pms_bid_result s inner join pms_product1 p on s.user_id = #{userId} and s.product_id = p.id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from pms_bid_result

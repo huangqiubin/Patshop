@@ -6,9 +6,10 @@ import com.hqb.patshop.app.home.dto.TopicPostDTO;
 import com.hqb.patshop.app.home.service.CommunityService;
 import com.hqb.patshop.mbg.dao.SmsSecTopicDao;
 import com.hqb.patshop.mbg.dao.SmsTopicDao;
-import com.hqb.patshop.mbg.dao.UmsMemberMapper;
+import com.hqb.patshop.mbg.dao.UmsMemberDao;
 import com.hqb.patshop.mbg.model.SmsTopic;
-import com.hqb.patshop.mbg.model.UmsMemberDao;
+import com.hqb.patshop.mbg.model.UmsMember;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     SmsSecTopicDao smsSecTopicDao;
     @Autowired
-    UmsMemberMapper umsMemberMapper;
+    UmsMemberDao memberDao;
 
     @Override
     public CommunityResult hotTopicList(int hotTopic) {
@@ -59,14 +60,16 @@ public class CommunityServiceImpl implements CommunityService {
         int secTopicTypeId = smsSecTopicDao.selectPrimaryKeyBySecTopicName(topic.getTopicSecType());
         smsTopic.setSecTopicId(secTopicTypeId);
         //获取用户信息
-        UmsMemberDao memberDao = umsMemberMapper.selectMember(12);
-        smsTopic.setUserAvatar(memberDao.getIcon());
-        smsTopic.setUserNickname(memberDao.getNickname());
+        SecurityUtils.getSubject().getSession().getAttribute("currentUserId");
+        //todo
+        UmsMember member = memberDao.selectByPrimaryKey((long) 12);
+        smsTopic.setUserAvatar(member.getIcon());
+        smsTopic.setUserNickname(member.getNickname());
         //是否热门话题
         smsTopic.setHotTopic(0);
         smsTopic.setTopicType(0);
         smsTopic.setCreateTime(new Date());
-        smsTopic.setUserId(Integer.parseInt(memberDao.getId() + ""));
+        smsTopic.setUserId(Integer.parseInt(member.getId() + ""));
         smsTopic.setTopicHotValue(Math.random() * 1000);
         int position = smsTopicDao.insert(smsTopic);
         if (position != 0) {

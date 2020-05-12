@@ -1,7 +1,7 @@
 package com.hqb.patshop.config.shiro;
 
 import com.hqb.patshop.app.login.service.MemberService;
-import com.hqb.patshop.mbg.model.UmsMemberDao;
+import com.hqb.patshop.mbg.model.UmsMember;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -43,7 +43,7 @@ public class DatabaseRealm extends AuthorizingRealm {
         String userName = token.getPrincipal().toString();
         String password = new String(t.getPassword());
         //获取数据库中的密码
-        UmsMemberDao memberInfo = memberService.getMemberInfo(userName);
+        UmsMember memberInfo = memberService.getMemberInfo(userName);
         String passwordInDB = memberInfo.getPassword();
 //        String salt = memberInfo.getSalt();
         //认证信息里存放账号密码, getName() 是当前Realm的继承方法,通常返回当前类名 :databaseRealm

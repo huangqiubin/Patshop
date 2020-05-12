@@ -2,7 +2,7 @@ package app.home;
 
 import com.hqb.patshop.PatshopApplication;
 import com.hqb.patshop.app.home.service.impl.HomeServiceImpl;
-import com.hqb.patshop.app.login.service.impl.LoginServiceImpl;
+import com.hqb.patshop.app.login.service.LoginService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class HomeControllerTest {
     private HomeServiceImpl homeService;
 
     @Autowired
-    private LoginServiceImpl loginService;
+    private LoginService loginService;
 
     @Test
     public void testContent() {

@@ -1,5 +1,6 @@
 package com.hqb.patshop.app.home.controller;
 
+import com.hqb.patshop.app.home.domain.BidOnLookResult;
 import com.hqb.patshop.app.home.domain.BidSaleResult;
 import com.hqb.patshop.app.home.domain.MineContentResult;
 import com.hqb.patshop.app.home.service.MineService;
@@ -37,8 +38,20 @@ public class MineController {
     @RequestMapping(value = "/bid_sale", method = RequestMethod.GET)
     @RequiresAuthentication
     public CommonResult<BidSaleResult> bidSale(String userName) {
+
         BidSaleResult bidSaleResult = mineService.bidSaleContent(userName);
         return CommonResult.success(bidSaleResult);
+    }
+
+    /**
+     * 获取围观拍品
+     */
+    @RequestMapping(value = "/on_look", method = RequestMethod.GET)
+    @RequiresAuthentication
+    public CommonResult<BidOnLookResult> bidOnLook(String userName) {
+
+        BidOnLookResult onLookResult = mineService.bidOnLookContent(userName);
+        return CommonResult.success(onLookResult);
     }
 
 }

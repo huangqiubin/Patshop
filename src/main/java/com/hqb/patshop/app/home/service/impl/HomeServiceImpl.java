@@ -7,9 +7,9 @@ import com.hqb.patshop.app.home.domain.ProductDetailResult;
 import com.hqb.patshop.app.home.service.HomeService;
 import com.hqb.patshop.mbg.dao.PmsProductDao;
 import com.hqb.patshop.mbg.dao.SmsHomeAdvertiseMapper;
-import com.hqb.patshop.mbg.dao.UmsMemberMapper;
+import com.hqb.patshop.mbg.dao.UmsMemberDao;
 import com.hqb.patshop.mbg.model.PmsProductModel;
-import com.hqb.patshop.mbg.model.UmsMemberDao;
+import com.hqb.patshop.mbg.model.UmsMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -29,7 +29,7 @@ public class HomeServiceImpl implements HomeService {
     @Autowired
     PmsProductDao productDao;
     @Autowired
-    UmsMemberMapper memberMapper;
+    UmsMemberDao memberDaor;
 
     @Override
     public HomeContentResult content() {
@@ -74,7 +74,7 @@ public class HomeServiceImpl implements HomeService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Integer bidProduct(long productId, Double bidPatCoin, String userName) {
-        UmsMemberDao memberDao = memberMapper.selectUserByUserName(userName);
+        UmsMember memberDao = memberDaor.selectUserByUserName(userName);
         if (memberDao == null) {
             return -1;//用户不存在
         }

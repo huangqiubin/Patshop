@@ -36,6 +36,7 @@ public class CommunityController {
 
     @RequestMapping(value = "/post_topic", method = RequestMethod.POST)
     public CommonResult<Integer> postTopic(String topicType, String topicSecType, String topicContent, MultipartFile[] files) {
+
         StringBuilder imageBuilder = new StringBuilder();
         for (MultipartFile file : files) {
             try {
@@ -49,8 +50,8 @@ public class CommunityController {
                 file.transferTo(destFile);
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("文件没找到异常");
-                return CommonResult.failed("文件没找到异常");
+                System.out.println("服务端存储文件异常");
+                return CommonResult.failed("服务端存储文件异常");
             }
         }
         TopicPostDTO topic = new TopicPostDTO();

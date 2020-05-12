@@ -1,7 +1,7 @@
 package app.home;
 
 import com.hqb.patshop.PatshopApplication;
-import com.hqb.patshop.mbg.dao.UmsMemberMapper;
+import com.hqb.patshop.mbg.dao.UmsMemberDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MemberTest {
 
     @Autowired
-    private UmsMemberMapper memberMapper;
+    private UmsMemberDao memberDao;
 
     @Test
     public void testMemberInfo() {
-        System.out.println(memberMapper.selectMember(12));
+        System.out.println(memberDao.selectByPrimaryKey((long) 12));
     }
 }

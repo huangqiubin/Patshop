@@ -30,7 +30,14 @@ public class ActivityController {
     public CommonResult<ActivityContentResult> getActivityContent(String userName) {
         ActivityContentResult activityContentResult = new ActivityContentResult();
         UmsSignInModel signInModel = activityService.getSignInModel(userName);
+        long millis = signInModel.getSignDate().getTime();
+        //昨天是否有签到
+        boolean isYesterday = isYesterday(millis);
+        //今天是否有签到
+        boolean hasTodaySign = isToday(millis);
         activityContentResult.setSignInModel(signInModel);
+        activityContentResult.setYesterday(isYesterday);
+        activityContentResult.setHasTodaySign(hasTodaySign);
         return CommonResult.success(activityContentResult);
     }
 
@@ -49,7 +56,7 @@ public class ActivityController {
         }
         long millis = signInModel.getSignDate().getTime();
         //连续签到，最高得7个拍拍币
-        if (isYestoday(millis)) {
+        if (isYesterday(millis)) {
             int rewardCoin = 0;
             if (signInModel.getRewardCoin() + 1 < 7) {
                 rewardCoin = signInModel.getRewardCoin() + 1;
@@ -64,13 +71,24 @@ public class ActivityController {
     }
 
     //是否是昨天
-    public boolean isYestoday(long millis) {
+    public boolean isYesterday(long millis) {
+        long zero = getEarlyMorning();
+        return (millis > (zero - 86400000)) && (millis < zero);
+    }
+
+    //是否是今天
+    public boolean isToday(long millis) {
+        long zero = getEarlyMorning();
+        return (millis > zero) && (millis < zero + 86400000);
+    }
+
+    private long getEarlyMorning() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.MILLISECOND, 0);
         long zero = cal.getTimeInMillis();
-        return (millis > (zero - 86400000)) && (millis < zero);
+        return zero;
     }
 }

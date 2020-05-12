@@ -1,10 +1,12 @@
 package com.hqb.patshop.mbg.dao;
 
+import com.hqb.patshop.mbg.model.BidResultModel;
 import com.hqb.patshop.mbg.model.PmsBidResultModel;
 
 import java.util.List;
 
 public interface PmsBidResultDao {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(PmsBidResultModel record);
@@ -19,6 +21,6 @@ public interface PmsBidResultDao {
 
     int selectCountByUserId(Long userId);
 
-    List<PmsBidResultModel> selectAllByUserId(Long userId);
+    List<BidResultModel> selectAllResultByUserId(Long userId);
 
 }
