@@ -119,7 +119,7 @@ public class PmsProductModel implements Serializable {
     /**
      * 退币比率
      */
-    private Byte refundRate;
+    private Integer refundRate;
 
     /**
      * 手续费

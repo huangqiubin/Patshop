@@ -2,6 +2,8 @@ package com.hqb.patshop.mbg.dao;
 
 import com.hqb.patshop.mbg.model.PmsProductModel;
 
+import java.util.List;
+
 public interface PmsProductDao {
 
     int deleteByPrimaryKey(Long id);
@@ -17,5 +19,9 @@ public interface PmsProductDao {
     int updateByPrimaryKey(PmsProductModel record);
 
     PmsProductModel selectByPrimaryKeyForUpdate(Long id);
+
+    List<PmsProductModel> selectAllDesc();
+
+    List<PmsProductModel> selectAllByCategoryNameDesc(String categoryName);
 
 }

@@ -3,6 +3,7 @@ package app.home;
 import com.hqb.patshop.PatshopApplication;
 import com.hqb.patshop.app.home.service.impl.HomeServiceImpl;
 import com.hqb.patshop.app.login.service.LoginService;
+import com.hqb.patshop.mbg.dao.PmsProductCategoryDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class HomeControllerTest {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private PmsProductCategoryDao categoryDao;
 
     @Test
     public void testContent() {
@@ -49,4 +53,8 @@ public class HomeControllerTest {
         System.out.println("bid result " + homeService.bidProduct(28, 15.0, "18378583474"));
     }
 
+    @Test
+    public void testCategoryName(){
+        System.out.println(categoryDao.selectByCategoryName("生活百货"));
+    }
 }

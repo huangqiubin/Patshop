@@ -9,6 +9,7 @@ import com.hqb.patshop.mbg.dao.PmsProductDao;
 import com.hqb.patshop.mbg.dao.SmsHomeAdvertiseMapper;
 import com.hqb.patshop.mbg.dao.UmsMemberDao;
 import com.hqb.patshop.mbg.model.PmsProductModel;
+import com.hqb.patshop.mbg.model.SmsHomeProductDao;
 import com.hqb.patshop.mbg.model.UmsMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class HomeServiceImpl implements HomeService {
@@ -45,7 +48,24 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public HomeBidProductResult homeBidProduct(String categoryName) {
         HomeBidProductResult homeBidProductResult = new HomeBidProductResult();
-        homeBidProductResult.setHomeProductDaoList(homeAdvertiseMapper.selectBidProduct(categoryName));
+        List<SmsHomeProductDao> homeProductDaoList = new ArrayList<>();
+        List<PmsProductModel> productModelList = productDao.selectAllByCategoryNameDesc(categoryName);
+        for (PmsProductModel productModel : productModelList) {
+            SmsHomeProductDao homeProductDao = new SmsHomeProductDao();
+            homeProductDao.setProductName(productModel.getName());
+            homeProductDao.setPic(productModel.getPic());
+            String[] patCoin = productModel.getCurPatCoin().split(",");
+            double patPrice = 0.0;
+            if (patCoin[0].length() > 0) {
+                patPrice = Double.parseDouble(patCoin[0]);
+            }
+            homeProductDao.setPatPrice(patPrice);
+            homeProductDao.setMarketPrice(productModel.getMarketPrice().doubleValue());
+            homeProductDao.setBidCount((long) patCoin.length);
+            homeProductDao.setProductId(productModel.getId());
+            homeProductDaoList.add(homeProductDao);
+        }
+        homeBidProductResult.setHomeProductDaoList(homeProductDaoList);
         return homeBidProductResult;
     }
 

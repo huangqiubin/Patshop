@@ -23,7 +23,7 @@
         <result column="onlookers" jdbcType="INTEGER" property="onlookers"/>
         <result column="bid_countdown" jdbcType="TIMESTAMP" property="bidCountdown"/>
         <result column="start_price" jdbcType="DECIMAL" property="startPrice"/>
-        <result column="refund_rate" jdbcType="TINYINT" property="refundRate"/>
+        <result column="refund_rate" jdbcType="INTEGER" property="refundRate"/>
         <result column="handling_fee" jdbcType="DECIMAL" property="handlingFee"/>
         <result column="markup" jdbcType="DECIMAL" property="markup"/>
         <result column="cur_pat_coin" jdbcType="VARCHAR" property="curPatCoin"/>
@@ -50,6 +50,16 @@
         <include refid="Base_Column_List"/>
         from pms_product1
         where id = #{id,jdbcType=BIGINT} for update
+    </select>
+    <select id="selectAllDesc" resultType="com.hqb.patshop.mbg.model.PmsProductModel">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_product1 order by id desc
+    </select>
+    <select id="selectAllByCategoryNameDesc" resultType="com.hqb.patshop.mbg.model.PmsProductModel">
+        select
+        <include refid="Base_Column_List"/>
+        from pms_product1 where category_name = #{categoryName,jdbcType=VARCHAR} order by id desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from pms_product1
@@ -320,7 +330,7 @@
                 start_price = #{startPrice,jdbcType=DECIMAL},
             </if>
             <if test="refundRate != null">
-                refund_rate = #{refundRate,jdbcType=TINYINT},
+                refund_rate = #{refundRate,jdbcType=INTEGER},
             </if>
             <if test="handlingFee != null">
                 handling_fee = #{handlingFee,jdbcType=DECIMAL},
@@ -368,7 +378,7 @@
       onlookers = #{onlookers,jdbcType=INTEGER},
       bid_countdown = #{bidCountdown,jdbcType=TIMESTAMP},
       start_price = #{startPrice,jdbcType=DECIMAL},
-      refund_rate = #{refundRate,jdbcType=TINYINT},
+      refund_rate = #{refundRate,jdbcType=INTEGER},
       handling_fee = #{handlingFee,jdbcType=DECIMAL},
       markup = #{markup,jdbcType=DECIMAL},
       cur_pat_coin = #{curPatCoin,jdbcType=VARCHAR},

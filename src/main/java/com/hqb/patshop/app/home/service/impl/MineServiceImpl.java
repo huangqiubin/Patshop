@@ -81,7 +81,7 @@ public class MineServiceImpl implements MineService {
                 if (bidState) {
                     bidSalePOJO.setBidState("竞拍成功");
                 } else {
-                    bidSalePOJO.setBidState("竞拍失败");
+                    bidSalePOJO.setBidState("已截拍");
                 }
             } else {
                 if (bidState) {

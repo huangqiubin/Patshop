@@ -61,8 +61,8 @@ public class CommunityServiceImpl implements CommunityService {
         smsTopic.setSecTopicId(secTopicTypeId);
         //获取用户信息
         SecurityUtils.getSubject().getSession().getAttribute("currentUserId");
-        //todo
-        UmsMember member = memberDao.selectByPrimaryKey((long) 12);
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
+        UmsMember member = memberDao.selectUserByUserName(userName);
         smsTopic.setUserAvatar(member.getIcon());
         smsTopic.setUserNickname(member.getNickname());
         //是否热门话题
