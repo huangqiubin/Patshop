@@ -7,6 +7,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -73,11 +74,20 @@ public class ShiroConfiguration2 {
         return new URLPathMatchingFilter();
     }
 
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        // 设置session过期时间3600s
+        sessionManager.setGlobalSessionTimeout(3600000L);
+        return sessionManager;
+    }
+
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm.
         securityManager.setRealm(getDatabaseRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 

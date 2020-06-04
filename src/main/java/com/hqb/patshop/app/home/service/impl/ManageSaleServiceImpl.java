@@ -22,13 +22,32 @@ public class ManageSaleServiceImpl implements ManageSaleService {
 
     @Override
     public List<PmsProductModel> productList() {
-        List<PmsProductModel> productModelList = productDao.selectAllDesc();
-        return productModelList;
+        return productDao.selectAllDesc();
     }
 
     @Override
     public int addProduct(String name, String pic, Double marketPrice, String subTitle, String categoryName,
                           long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
+        PmsProductModel productModel = makeNewProducgt(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
+        return productDao.insert(productModel);
+    }
+
+    @Override
+    public int updateProduct(String name, String pic, Double marketPrice, String subTitle, String categoryName,
+                             long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
+        PmsProductModel productModel = makeNewProducgt(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
+        return productDao.updateByPrimaryKeySelective(productModel);
+    }
+
+    @Override
+    public int offProduct(Integer productId) {
+        PmsProductModel productModel = new PmsProductModel();
+        productModel.setId(productId.longValue());
+        productModel.setDeleteStatus(1);
+        return productDao.updateByPrimaryKeySelective(productModel);
+    }
+
+    private PmsProductModel makeNewProducgt(String name, String pic, Double marketPrice, String subTitle, String categoryName, long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
         PmsProductModel productModel = new PmsProductModel();
         productModel.setName(name);
         productModel.setPic(pic);
@@ -61,7 +80,6 @@ public class ManageSaleServiceImpl implements ManageSaleService {
         productModel.setCurPatUserAvatar("");
         productModel.setCurPatTime("");
         productModel.setCurPatUserId("");
-        int result = productDao.insert(productModel);
-        return result;
+        return productModel;
     }
 }

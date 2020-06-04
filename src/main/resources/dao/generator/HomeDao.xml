@@ -15,7 +15,7 @@
     </select>
 
     <select id="selectAllHomeHot" resultType="com.hqb.patshop.mbg.model.SmsHomeHot">
-        select * from sms_home_hot
+        select * from sms_home_hot order by id DESC
     </select>
 
 </mapper>

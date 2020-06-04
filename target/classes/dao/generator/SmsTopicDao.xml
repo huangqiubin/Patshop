@@ -54,7 +54,7 @@
     <select id="selectAllByHotTopic" resultMap="BaseTopicAndSecTopic">
         select t.id, t.topic_type, t.topic_content, t.topic_image, t.user_id, t.user_nickname, t.user_avatar, t.create_time, t.topic_category, t.topic_title, t.hot_topic, t.topic_hot_value, s.id, s.sec_topic_name
         from sms_topic t left outer join sms_sec_topic s on t.sec_topic_id = s.id
-        where t.hot_topic = #{hotTopic}
+        where t.hot_topic = #{hotTopic} order by t.id desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sms_topic

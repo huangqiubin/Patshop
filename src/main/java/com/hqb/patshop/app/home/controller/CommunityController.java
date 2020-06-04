@@ -4,6 +4,7 @@ import com.hqb.patshop.app.home.domain.CommunityResult;
 import com.hqb.patshop.app.home.domain.HotTopicResult;
 import com.hqb.patshop.app.home.dto.TopicPostDTO;
 import com.hqb.patshop.app.home.service.CommunityService;
+import com.hqb.patshop.app.home.util.FileUtils;
 import com.hqb.patshop.common.api.CommonResult;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +41,7 @@ public class CommunityController {
         StringBuilder imageBuilder = new StringBuilder();
         for (MultipartFile file : files) {
             try {
-                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                imageBuilder.append(fileName).append(",");
-                String destFilePath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
-                String destFileName = destFilePath + File.separator + fileName;
-                System.out.println("存储路径" + destFileName);
-                File destFile = new File(destFileName);
-                destFile.getParentFile().mkdirs();
-                file.transferTo(destFile);
+                FileUtils.saveMultipartFile(imageBuilder, file);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("服务端存储文件异常");
@@ -62,5 +56,6 @@ public class CommunityController {
         Integer integer = communityService.postTopic(topic);
         return CommonResult.success(integer);
     }
+
 
 }

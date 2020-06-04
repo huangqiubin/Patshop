@@ -81,4 +81,7 @@ public class SmsHomeProductDao implements Serializable {
    	@Column(name = "bid_count" )
 	private Long bidCount;
 
+   	private Integer deleteStatus;
+
+
 }

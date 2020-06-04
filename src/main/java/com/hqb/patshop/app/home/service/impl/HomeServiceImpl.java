@@ -51,19 +51,21 @@ public class HomeServiceImpl implements HomeService {
         List<SmsHomeProductDao> homeProductDaoList = new ArrayList<>();
         List<PmsProductModel> productModelList = productDao.selectAllByCategoryNameDesc(categoryName);
         for (PmsProductModel productModel : productModelList) {
-            SmsHomeProductDao homeProductDao = new SmsHomeProductDao();
-            homeProductDao.setProductName(productModel.getName());
-            homeProductDao.setPic(productModel.getPic());
-            String[] patCoin = productModel.getCurPatCoin().split(",");
-            double patPrice = 0.0;
-            if (patCoin[0].length() > 0) {
-                patPrice = Double.parseDouble(patCoin[0]);
+            if (productModel.getDeleteStatus() == 1 || productModel.getBidCountdown().compareTo(new Date()) > 0) {
+                SmsHomeProductDao homeProductDao = new SmsHomeProductDao();
+                homeProductDao.setProductName(productModel.getName());
+                homeProductDao.setPic(productModel.getPic());
+                String[] patCoin = productModel.getCurPatCoin().split(",");
+                double patPrice = 0.0;
+                if (patCoin[0].length() > 0) {
+                    patPrice = Double.parseDouble(patCoin[0]);
+                }
+                homeProductDao.setPatPrice(patPrice);
+                homeProductDao.setMarketPrice(productModel.getMarketPrice().doubleValue());
+                homeProductDao.setBidCount((long) patCoin.length);
+                homeProductDao.setProductId(productModel.getId());
+                homeProductDaoList.add(homeProductDao);
             }
-            homeProductDao.setPatPrice(patPrice);
-            homeProductDao.setMarketPrice(productModel.getMarketPrice().doubleValue());
-            homeProductDao.setBidCount((long) patCoin.length);
-            homeProductDao.setProductId(productModel.getId());
-            homeProductDaoList.add(homeProductDao);
         }
         homeBidProductResult.setHomeProductDaoList(homeProductDaoList);
         return homeBidProductResult;

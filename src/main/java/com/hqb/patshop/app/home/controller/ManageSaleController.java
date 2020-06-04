@@ -3,6 +3,7 @@ package com.hqb.patshop.app.home.controller;
 import com.hqb.patshop.app.home.domain.ManageSaleContentResult;
 import com.hqb.patshop.app.home.service.HomeService;
 import com.hqb.patshop.app.home.service.ManageSaleService;
+import com.hqb.patshop.app.home.util.FileUtils;
 import com.hqb.patshop.common.api.CommonResult;
 import com.hqb.patshop.mbg.model.PmsProductModel;
 import com.hqb.patshop.mbg.model.SmsHomeProductDao;
@@ -26,6 +27,9 @@ public class ManageSaleController {
     @Autowired
     ManageSaleService manageSaleService;
 
+    /**
+     * 管理页面，在拍和截拍商品
+     */
     @RequestMapping(value = "/manage_sale", method = RequestMethod.GET)
     public CommonResult<ManageSaleContentResult> manageSaleContent() {
         ManageSaleContentResult manageSaleContentResult = new ManageSaleContentResult();
@@ -34,7 +38,7 @@ public class ManageSaleController {
         List<SmsHomeProductDao> endBidProduct = new ArrayList<>();
         for (PmsProductModel productModel : productModelList) {
             SmsHomeProductDao bidProduct = getHomeProduct(productModel);
-            if (productModel.getBidCountdown().compareTo(new Date()) == 1) {
+            if (productModel.getBidCountdown().compareTo(new Date()) > 0 && productModel.getDeleteStatus() == 0) {
                 //没截拍
                 onBidProduct.add(bidProduct);
             } else {
@@ -47,6 +51,9 @@ public class ManageSaleController {
         return CommonResult.success(manageSaleContentResult);
     }
 
+    /**
+     * 详细商品信息转换成首页商品信息
+     */
     private SmsHomeProductDao getHomeProduct(PmsProductModel productModel) {
         SmsHomeProductDao homeProductDao = new SmsHomeProductDao();
         homeProductDao.setProductId(productModel.getId());
@@ -57,13 +64,12 @@ public class ManageSaleController {
         homeProductDao.setPatPrice(Double.parseDouble(bidCoin.length() == 0 ? "0" : bidCoin));
         homeProductDao.setPic(productModel.getPic());
         homeProductDao.setProductName(productModel.getName());
+        homeProductDao.setDeleteStatus(productModel.getDeleteStatus());
         return homeProductDao;
     }
 
     /**
      * 商家发拍接口
-     *
-     * @return
      */
     @RequestMapping(value = "/add_product", method = RequestMethod.POST)
     public CommonResult<Integer> addProduct(String name, MultipartFile[] pics, Double marketPrice,
@@ -77,9 +83,34 @@ public class ManageSaleController {
         if (albumPic.length() == 0) {
             return CommonResult.failed("商品相册集不能为空哦～");
         }
-        int result = manageSaleService.addProduct(name, picName, marketPrice,
-                subTitle, categoryName,
+        int result = manageSaleService.addProduct(name, picName, marketPrice, subTitle, categoryName,
                 bidCountDown, startPrice, markUp, albumPic);
+        return CommonResult.success(result);
+    }
+
+    @RequestMapping(value = "/update_product", method = RequestMethod.POST)
+    public CommonResult<Integer> updateProduct(String name, MultipartFile[] pics, Double marketPrice,
+                                               String subTitle, String categoryName,
+                                               long bidCountDown, Double startPrice, Double markUp, MultipartFile[] albumsPics) {
+        String picName = getPicName(pics);
+        if (picName.length() == 0) {
+            return CommonResult.failed("商品首页图不能为空哦～");
+        }
+        String albumPic = getPicName(albumsPics);
+        if (albumPic.length() == 0) {
+            return CommonResult.failed("商品相册集不能为空哦～");
+        }
+        int result = manageSaleService.updateProduct(name, picName, marketPrice, subTitle, categoryName,
+                bidCountDown, startPrice, markUp, albumPic);
+        return CommonResult.success(result);
+    }
+
+    /**
+     * 下架商品
+     */
+    @RequestMapping(value = "/off_product", method = RequestMethod.GET)
+    public CommonResult<Integer> offProduct(Integer productId) {
+        int result = manageSaleService.offProduct(productId);
         return CommonResult.success(result);
     }
 
@@ -87,14 +118,7 @@ public class ManageSaleController {
         StringBuilder imageBuilder = new StringBuilder();
         for (MultipartFile file : pics) {
             try {
-                String fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                imageBuilder.append(fileName).append(",");
-                String destFilePath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
-                String destFileName = destFilePath + File.separator + fileName;
-                System.out.println("存储路径" + destFileName);
-                File destFile = new File(destFileName);
-                destFile.getParentFile().mkdirs();
-                file.transferTo(destFile);
+                FileUtils.saveMultipartFile(imageBuilder, file);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("服务端存储文件异常");
