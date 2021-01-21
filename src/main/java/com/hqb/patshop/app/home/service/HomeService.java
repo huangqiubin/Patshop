@@ -37,4 +37,14 @@ public interface HomeService {
      * 出价竞拍
      */
     Integer bidProduct(long productId, Double bidPatCoin, String userName);
+
+    /**
+     * 添加用户围观商品
+     */
+    Integer onLookProduct(int productId, int userId);
+
+    /**
+     * 添加用户参拍表
+     */
+    Integer onBidProduct(long productId, long userId);
 }

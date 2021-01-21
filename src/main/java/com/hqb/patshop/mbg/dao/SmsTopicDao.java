@@ -22,4 +22,6 @@ public interface SmsTopicDao {
     List<SmsTopic> selectAllBySecTopicId(int secTopicId);
 
     List<TopicAndSecTopic> selectAllByHotTopic(Integer hotTopic);
+
+    List<TopicAndSecTopic> selectAllByCategory(String categoryName);
 }

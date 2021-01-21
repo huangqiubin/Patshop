@@ -32,13 +32,10 @@ public class MineController {
 
     /**
      * 获取参拍拍品
-     *
-     * @return
      */
     @RequestMapping(value = "/bid_sale", method = RequestMethod.GET)
     @RequiresAuthentication
     public CommonResult<BidSaleResult> bidSale(String userName) {
-
         BidSaleResult bidSaleResult = mineService.bidSaleContent(userName);
         return CommonResult.success(bidSaleResult);
     }
@@ -49,7 +46,6 @@ public class MineController {
     @RequestMapping(value = "/on_look", method = RequestMethod.GET)
     @RequiresAuthentication
     public CommonResult<BidOnLookResult> bidOnLook(String userName) {
-
         BidOnLookResult onLookResult = mineService.bidOnLookContent(userName);
         return CommonResult.success(onLookResult);
     }

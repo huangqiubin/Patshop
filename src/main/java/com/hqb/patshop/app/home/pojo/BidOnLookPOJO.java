@@ -1,5 +1,8 @@
 package com.hqb.patshop.app.home.pojo;
 
+/**
+ * 围观POJO
+ */
 public class BidOnLookPOJO {
     /**
      * 参拍表id

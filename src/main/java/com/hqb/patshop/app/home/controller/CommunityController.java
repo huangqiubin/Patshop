@@ -24,8 +24,8 @@ public class CommunityController {
 
     @RequestMapping(value = "/hot_topic", method = RequestMethod.GET)
     @RequiresAuthentication
-    public CommonResult<CommunityResult> content() {
-        CommunityResult communityResult = communityService.hotTopicList(1);
+    public CommonResult<CommunityResult> content(int position) {
+        CommunityResult communityResult = communityService.hotTopicList(position);
         return CommonResult.success(communityResult);
     }
 
@@ -37,7 +37,7 @@ public class CommunityController {
 
     @RequestMapping(value = "/post_topic", method = RequestMethod.POST)
     public CommonResult<Integer> postTopic(String topicType, String topicSecType, String topicContent, MultipartFile[] files) {
-
+        System.out.println(files.length);
         StringBuilder imageBuilder = new StringBuilder();
         for (MultipartFile file : files) {
             try {

@@ -26,9 +26,24 @@ public class CommunityServiceImpl implements CommunityService {
     UmsMemberDao memberDao;
 
     @Override
-    public CommunityResult hotTopicList(int hotTopic) {
+    public CommunityResult hotTopicList(int position) {
         CommunityResult communityResult = new CommunityResult();
-        communityResult.setTopicList(smsTopicDao.selectAllByHotTopic(hotTopic));
+        switch (position) {
+            case 1:
+                communityResult.setTopicList(smsTopicDao.selectAllByCategory("游戏点劵"));
+                break;
+            case 2:
+                communityResult.setTopicList(smsTopicDao.selectAllByCategory("手机数码"));
+                break;
+            case 3:
+                communityResult.setTopicList(smsTopicDao.selectAllByCategory("美妆好物"));
+                break;
+            case 4:
+                communityResult.setTopicList(smsTopicDao.selectAllByCategory("生活百货"));
+                break;
+            default:
+                communityResult.setTopicList(smsTopicDao.selectAllByHotTopic(1));
+        }
         return communityResult;
     }
 

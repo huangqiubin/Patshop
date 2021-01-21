@@ -30,9 +30,6 @@ public class MineServiceImpl implements MineService {
 
     /**
      * 我的界面数据
-     *
-     * @param userName
-     * @return
      */
     @Override
     public MineContentResult mineContent(String userName) {
@@ -53,9 +50,6 @@ public class MineServiceImpl implements MineService {
 
     /**
      * 获取参拍拍品列表
-     *
-     * @param userName
-     * @return
      */
     @Override
     public BidSaleResult bidSaleContent(String userName) {
@@ -133,11 +127,11 @@ public class MineServiceImpl implements MineService {
                 onLookPOJO.setBidState("竞拍中");
             }
             //当前价格
-            if (bidCount.length > 0) {
-                String[] bidPrice = bidResultModel.getProductModel().getCurPatCoin().split(",");
-                onLookPOJO.setBidPrice(Double.parseDouble(bidPrice[0]));
-            } else {
+            String[] bidPrice = bidResultModel.getProductModel().getCurPatCoin().split(",");
+            if ("".equals(bidPrice[0])) {
                 onLookPOJO.setBidPrice(bidResultModel.getProductModel().getStartPrice().doubleValue());
+            } else {
+                onLookPOJO.setBidPrice(Double.parseDouble(bidPrice[0]));
             }
             onLookList.add(onLookPOJO);
         }

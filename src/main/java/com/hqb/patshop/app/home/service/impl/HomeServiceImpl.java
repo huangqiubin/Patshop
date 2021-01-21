@@ -5,12 +5,9 @@ import com.hqb.patshop.app.home.domain.HomeContentResult;
 import com.hqb.patshop.app.home.domain.HomeHotBidResult;
 import com.hqb.patshop.app.home.domain.ProductDetailResult;
 import com.hqb.patshop.app.home.service.HomeService;
-import com.hqb.patshop.mbg.dao.PmsProductDao;
-import com.hqb.patshop.mbg.dao.SmsHomeAdvertiseMapper;
-import com.hqb.patshop.mbg.dao.UmsMemberDao;
-import com.hqb.patshop.mbg.model.PmsProductModel;
+import com.hqb.patshop.mbg.dao.*;
+import com.hqb.patshop.mbg.model.*;
 import com.hqb.patshop.mbg.model.SmsHomeProductDao;
-import com.hqb.patshop.mbg.model.UmsMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -33,6 +30,10 @@ public class HomeServiceImpl implements HomeService {
     PmsProductDao productDao;
     @Autowired
     UmsMemberDao memberDaor;
+    @Autowired
+    PmsOnLookDao onLookDao;
+    @Autowired
+    PmsBidResultDao bidResultDao;
 
     @Override
     public HomeContentResult content() {
@@ -51,7 +52,7 @@ public class HomeServiceImpl implements HomeService {
         List<SmsHomeProductDao> homeProductDaoList = new ArrayList<>();
         List<PmsProductModel> productModelList = productDao.selectAllByCategoryNameDesc(categoryName);
         for (PmsProductModel productModel : productModelList) {
-            if (productModel.getDeleteStatus() == 1 || productModel.getBidCountdown().compareTo(new Date()) > 0) {
+            if (productModel.getDeleteStatus() == 0 && productModel.getBidCountdown().compareTo(new Date()) > 0) {
                 SmsHomeProductDao homeProductDao = new SmsHomeProductDao();
                 homeProductDao.setProductName(productModel.getName());
                 homeProductDao.setPic(productModel.getPic());
@@ -109,16 +110,18 @@ public class HomeServiceImpl implements HomeService {
         }
         //判断是否是同一用户重复出价
         String userIdStr = productModel.getCurPatUserId().split(",")[0];
-        int userId = Integer.parseInt(userIdStr);
-        if (memberDao.getId() == userId) {
-            return 3;//同一用户重复出价
+        if (userIdStr.length() > 0) {
+            int userId = Integer.parseInt(userIdStr);
+            if (memberDao.getId() == userId) {
+                return 3;//同一用户重复出价
+            }
         }
         //判断竞拍价格
-        String curPatCoinStr = productModel.getCurPatCoin().split(",")[0];
-        Double curPatCoin = Double.parseDouble(curPatCoinStr);
-        if (curPatCoin >= bidPatCoin) {
+        Double curPrice = productModel.getCurrentPrice().doubleValue();
+        if (curPrice >= bidPatCoin) {
             return 4;//出价过小
         }
+        //更新拍品信息
         DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
         productModel.setCurPatCoin(bidPatCoin + "," + productModel.getCurPatCoin());
         productModel.setCurPatUserNickname(memberDao.getNickname() + "," + productModel.getCurPatUserNickname());
@@ -126,12 +129,31 @@ public class HomeServiceImpl implements HomeService {
         productModel.setCurPatTime(dateFormat.format(nowDate) + "," + productModel.getCurPatTime());
         productModel.setCurPatUserId(memberDao.getId() + "," + productModel.getCurPatUserId());
         productModel.setCurrentPrice(BigDecimal.valueOf(bidPatCoin));
+        productModel.setBids(productModel.getBids() + 1);
         int result = productDao.updateByPrimaryKeySelective(productModel);
         if (result > 0) {
+
             return 0;//竞拍成功
         } else {
             return 2;//竞拍失败
         }
+    }
+
+    @Override
+    public Integer onLookProduct(int productId, int userId) {
+        PmsOnLookModel onLookModel = new PmsOnLookModel();
+        onLookModel.setProductId(productId);
+        onLookModel.setUserId(userId);
+        return onLookDao.insert(onLookModel);
+    }
+
+    @Override
+    public Integer onBidProduct(long productId, long userId) {
+        PmsBidResultModel bidResultModel = new PmsBidResultModel();
+        bidResultModel.setUserId(userId);
+        bidResultModel.setProductId(productId);
+        bidResultDao.insert(bidResultModel);
+        return null;
     }
 
 

@@ -28,14 +28,14 @@ public class ManageSaleServiceImpl implements ManageSaleService {
     @Override
     public int addProduct(String name, String pic, Double marketPrice, String subTitle, String categoryName,
                           long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
-        PmsProductModel productModel = makeNewProducgt(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
+        PmsProductModel productModel = makeNewProduct(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
         return productDao.insert(productModel);
     }
 
     @Override
     public int updateProduct(String name, String pic, Double marketPrice, String subTitle, String categoryName,
                              long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
-        PmsProductModel productModel = makeNewProducgt(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
+        PmsProductModel productModel = makeNewProduct(name, pic, marketPrice, subTitle, categoryName, bidCountDown, startPrice, markUp, albumsPics);
         return productDao.updateByPrimaryKeySelective(productModel);
     }
 
@@ -47,7 +47,7 @@ public class ManageSaleServiceImpl implements ManageSaleService {
         return productDao.updateByPrimaryKeySelective(productModel);
     }
 
-    private PmsProductModel makeNewProducgt(String name, String pic, Double marketPrice, String subTitle, String categoryName, long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
+    private PmsProductModel makeNewProduct(String name, String pic, Double marketPrice, String subTitle, String categoryName, long bidCountDown, Double startPrice, Double markUp, String albumsPics) {
         PmsProductModel productModel = new PmsProductModel();
         productModel.setName(name);
         productModel.setPic(pic);
@@ -67,7 +67,7 @@ public class ManageSaleServiceImpl implements ManageSaleService {
         productModel.setGmtModified(new Date());
         productModel.setDeleteStatus(0);
         productModel.setSale(200);
-        productModel.setCurrentPrice(new BigDecimal(0));
+        productModel.setCurrentPrice(new BigDecimal(startPrice));
         productModel.setHistoricalPatCoin("");
         productModel.setStock(999);
         productModel.setServiceIds("1,2,3");
