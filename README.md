@@ -21,6 +21,20 @@
   **拍卖流程图：**
   
   ![拍卖流程图](https://user-images.githubusercontent.com/38311478/137591349-4e98dd95-9d8b-4d88-8d45-24079328e947.png)
+  
+  ### 数据库 E-R图**
+  
+  **商品数据表E-R图**
+   
+![商品数据表E-R图截图](https://user-images.githubusercontent.com/38311478/137592865-bc3ac4ef-1145-4d21-83c9-0e36d0139586.png)
+
+  **话题帖子E-R图**
+  
+![话题帖子E-R图截图](https://user-images.githubusercontent.com/38311478/137592872-e62756fb-1ebc-48a5-98b4-3465feebe37e.png)
+
+  **用户信息E-R图**
+  
+![用户信息E-R图截图](https://user-images.githubusercontent.com/38311478/137592880-fc023d5e-04e9-46ad-b60a-d2a05a1f8b14.png)
 
   **注册登陆用户**
 
